@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Example of the Implicit Grant flow with Spotify</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <style type="text/css">
+      #login, #loggedin {
+        display: none;
+      }
+      .text-overflow {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 500px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div id="login">
+        <h1>This is an example of the Implicit Grant flow</h1>
+        <button id="login-button" class="btn btn-primary">Log in with Spotify</button>
+      </div>
+      <div id="loggedin">
+        <div id="user-profile">
+        </div>
+        <div id="oauth">
+        </div>
+      </div>
+    </div>
+
+    <script id="user-profile-template" type="text/x-handlebars-template">
+      <h1>Logged in as {{profile.display_name}}</h1>
+      <div class="media">
+        <div class="pull-left">
+          <img class="media-object" width="150" src="{{profile.images.0.url}}" />
+        </div>
+        <div class="media-body">
+          <dl class="dl-horizontal">
+            <dt>Display name</dt><dd class="clearfix">{{profile.display_name}}</dd>
+            <dt>Id</dt><dd>{{profile.id}}</dd>
+            <dt>Email</dt><dd>{{profile.email}}</dd>
+            <dt>Spotify URI</dt><dd><a href="{{profile.external_urls.spotify}}">{{profile.external_urls.spotify}}</a></dd>
+            <dt>Link</dt><dd><a href="{{profile.href}}">{{profile.href}}</a></dd>
+            <dt>Profile Image</dt><dd class="clearfix"><a href="{{profile.images.0.url}}">{{profile.images.0.url}}</a></dd>
+            <dt>Country</dt><dd>{{profile.country}}</dd>
+          </dl>
+        </div>
+      </div>
+
+        <h1>Actions</h1>
+        <button id="unsaved-button" class="btn btn-primary">Playlist for unsaveds</button>
+        <button id="no-playlist-button" class="btn btn-primary">Playlist for no-playlist</button>
+
+  <h1>Playlists</h1>
+  <ul>
+  {{#each playlists}}
+  <li>{{this.name}}, track count: {{this.tracks.total}}</li>
+  {{/each}}
+  </ul>
+
+  <h1>Unsaved Songs in playlists</h1>
+  <ul>
+  {{#each unsavedSongsInPlaylists}}
+  <li>{{this.name}}</li>
+  {{/each}}
+  </ul>
+
+  <h1>Songs not in any playlist</h1>
+  <ul>
+  {{#each songsWithoutPlaylist}}
+    <li>{{this.name}}, id: {{this.id}}</li>
+  {{/each}}
+  </ul>
+    </script>
+
+    <script id="oauth-template" type="text/x-handlebars-template">
+      <h2>oAuth info</h2>
+      <dl class="dl-horizontal">
+        <dt>Access token</dt><dd class="text-overflow">{{access_token}}</dd>
+      </dl>
+    </script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="filtery.js"></script>
+</html>
